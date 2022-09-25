@@ -7,6 +7,10 @@ snake[0] = {
     y: 8 * box
 }
 let direction = "right";
+let food = {
+    x: Math.floor(Math.random() * 15 + 1) * box,
+    y: Math.floor(Math.random() * 15 + 1) * box
+}
 
 /* Desenhar e definir cor */
 function criarBG() {
@@ -21,6 +25,11 @@ function criarCobra() {
         context.fillStyle = "green";
         context.fillRect(snake[i].x, snake[i].y, box, box);
     }
+}
+
+function criarComida() {
+    context.fillStyle = "red";
+    context.fillRect(food.x, food.y, box, box);
 }
 
 document.addEventListener('keydown', update);
@@ -42,16 +51,27 @@ function iniciarJogo() {
 
     criarBG();
     criarCobra();
+    criarComida();
 
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
+    /* Mover cobra */
     if (direction == "right") snakeX += box;
     if (direction == "left")  snakeX -= box;
     if (direction == "down")  snakeY -= box;
     if (direction == "up")    snakeY += box;
 
-    snake.pop();
+    /*  */
+    if (snakeX != food.x || snakeY != food.y) {
+        snake.pop()
+    }
+    else {
+        food.x = Math.floor(Math.random() * 15 + 1) * box;
+        food.y = Math.floor(Math.random() * 15 + 1) * box;
+    }
+
+    /*snake.pop();*/
 
     let newHead = {
         x: snakeX,
